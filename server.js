@@ -6,7 +6,7 @@ const cors = require('cors');
 const path = require('path'); 
 
 const app = express();
-// ❗ WAJIB: Render memberikan PORT lewat 'process.env.PORT'
+// WAJIB: Render memberikan PORT lewat 'process.env.PORT'
 const PORT = process.env.PORT || 3000; 
 
 app.use(cors()); 
@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 // =================================================================
 // 1. MENAYANGKAN FRONTEND (File Statis dari folder 'public')
 // =================================================================
-// Pastikan folder 'public' ada DI DALAM 'backend-server'
+// Path ini mengasumsikan 'public' ada DI DALAM folder yang sama dengan 'server.js'
 const publicPath = path.join(__dirname, 'public');
 app.use(express.static(publicPath));
 
@@ -77,8 +77,9 @@ app.post('/api/voucher/activate', async (req, res) => {
 });
 
 // =================================================================
-// 4. FALLBACK (Menangani 'Cannot GET /')
+// 4. FALLBACK (INI YANG MEMPERBAIKI 'Cannot GET /')
 // =================================================================
+// Jika ada request yang BUKAN API, kirim 'index.html'
 app.get('*', (req, res) => {
     res.sendFile(path.join(publicPath, 'index.html'));
 });
